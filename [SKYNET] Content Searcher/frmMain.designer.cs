@@ -46,7 +46,7 @@ namespace SKYNET
             this.panel3 = new System.Windows.Forms.Panel();
             this.L_State = new System.Windows.Forms.Label();
             this.ClearLabel = new System.Windows.Forms.Timer(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PN_Top = new System.Windows.Forms.Panel();
             this.BT_MinimizeBox = new SKYNET.Controls.SKYNET_MinimizeBox();
             this.BT_CloseBox = new SKYNET.Controls.SKYNET_CloseBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -74,13 +74,13 @@ namespace SKYNET
             this.OpenContainer_Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeName_Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.Delete_Menu = new System.Windows.Forms.ToolStripMenuItem();
-            this.Typo = new XNova_Utils.Others.SKYNET_TextBox2();
-            this.FilePath = new XNova_Utils.Others.SKYNET_TextBox2();
-            this.txtSearch = new XNova_Utils.Others.SKYNET_TextBox2();
+            this.TB_Extention = new XNova_Utils.Others.SKYNET_TextBox2();
+            this.TB_FilePath = new XNova_Utils.Others.SKYNET_TextBox2();
+            this.TB_KeyToFind = new XNova_Utils.Others.SKYNET_TextBox2();
             this.BT_Clear = new SKYNET.Controls.SKYNET_Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.PN_Top.SuspendLayout();
             this.pnlMessage.SuspendLayout();
             this.ResultContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -94,14 +94,11 @@ namespace SKYNET
             this.Tittle.AutoSize = true;
             this.Tittle.Font = new System.Drawing.Font("Segoe UI Emoji", 8.5F, System.Drawing.FontStyle.Bold);
             this.Tittle.ForeColor = System.Drawing.Color.White;
-            this.Tittle.Location = new System.Drawing.Point(9, 6);
+            this.Tittle.Location = new System.Drawing.Point(9, 5);
             this.Tittle.Name = "Tittle";
             this.Tittle.Size = new System.Drawing.Size(177, 16);
             this.Tittle.TabIndex = 7;
             this.Tittle.Text = "[SKYNET] Content Searcher";
-            this.Tittle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
-            this.Tittle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseMove);
-            this.Tittle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseUp);
             // 
             // status
             // 
@@ -161,21 +158,18 @@ namespace SKYNET
             this.ClearLabel.Interval = 5000;
             this.ClearLabel.Tick += new System.EventHandler(this.ClearLabel_Tick);
             // 
-            // panel1
+            // PN_Top
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel1.Controls.Add(this.BT_MinimizeBox);
-            this.panel1.Controls.Add(this.BT_CloseBox);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.Tittle);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(776, 28);
-            this.panel1.TabIndex = 258;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseUp);
+            this.PN_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.PN_Top.Controls.Add(this.BT_MinimizeBox);
+            this.PN_Top.Controls.Add(this.BT_CloseBox);
+            this.PN_Top.Controls.Add(this.label1);
+            this.PN_Top.Controls.Add(this.Tittle);
+            this.PN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PN_Top.Location = new System.Drawing.Point(0, 0);
+            this.PN_Top.Name = "PN_Top";
+            this.PN_Top.Size = new System.Drawing.Size(776, 28);
+            this.PN_Top.TabIndex = 258;
             // 
             // BT_MinimizeBox
             // 
@@ -222,16 +216,16 @@ namespace SKYNET
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label3.Location = new System.Drawing.Point(10, 31);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 15);
+            this.label3.Size = new System.Drawing.Size(85, 15);
             this.label3.TabIndex = 269;
-            this.label3.Text = "Directory:";
+            this.label3.Text = "Directory path:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.label4.Location = new System.Drawing.Point(540, 31);
+            this.label4.Location = new System.Drawing.Point(528, 31);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(90, 15);
             this.label4.TabIndex = 271;
@@ -350,14 +344,14 @@ namespace SKYNET
             this.label5.TabIndex = 271;
             this.label5.Text = "Size";
             // 
-            // label2
+            // LB_FileName
             // 
             this.LB_FileName.AutoSize = true;
             this.LB_FileName.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LB_FileName.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.LB_FileName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.LB_FileName.Location = new System.Drawing.Point(3, 5);
-            this.LB_FileName.Name = "label2";
+            this.LB_FileName.Name = "LB_FileName";
             this.LB_FileName.Size = new System.Drawing.Size(58, 15);
             this.LB_FileName.TabIndex = 270;
             this.LB_FileName.Text = "File name";
@@ -368,11 +362,11 @@ namespace SKYNET
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.label7.Location = new System.Drawing.Point(715, 32);
+            this.label7.Location = new System.Drawing.Point(705, 32);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(22, 15);
+            this.label7.Size = new System.Drawing.Size(56, 15);
             this.label7.TabIndex = 332;
-            this.label7.Text = "Ext";
+            this.label7.Text = "Extention";
             // 
             // panel7
             // 
@@ -404,14 +398,14 @@ namespace SKYNET
             this.BT_Search.Text = "Search";
             this.BT_Search.Click += new System.EventHandler(this.FileProcess);
             // 
-            // progressBar1
+            // PB_Progress
             // 
             this.PB_Progress.BackColor = System.Drawing.Color.Transparent;
             this.PB_Progress.DrawHatch = true;
             this.PB_Progress.Location = new System.Drawing.Point(12, 550);
             this.PB_Progress.Maximum = 100;
             this.PB_Progress.Minimum = 0;
-            this.PB_Progress.Name = "progressBar1";
+            this.PB_Progress.Name = "PB_Progress";
             this.PB_Progress.ProgressColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.PB_Progress.ProgressColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(200)))));
             this.PB_Progress.ShowPercentage = false;
@@ -435,95 +429,92 @@ namespace SKYNET
             this.ListMenu.ShowImageMargin = false;
             this.ListMenu.Size = new System.Drawing.Size(198, 92);
             // 
-            // AbrirMenu
+            // Open_Menu
             // 
             this.Open_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
-            this.Open_Menu.Name = "AbrirMenu";
+            this.Open_Menu.Name = "Open_Menu";
             this.Open_Menu.Size = new System.Drawing.Size(197, 22);
             this.Open_Menu.Text = "Open";
             this.Open_Menu.Click += new System.EventHandler(this.AbrirMenu_Click);
             // 
-            // AbrirContMenu
+            // OpenContainer_Menu
             // 
             this.OpenContainer_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
-            this.OpenContainer_Menu.Name = "AbrirContMenu";
+            this.OpenContainer_Menu.Name = "OpenContainer_Menu";
             this.OpenContainer_Menu.Size = new System.Drawing.Size(197, 22);
             this.OpenContainer_Menu.Text = "Open Container Folder";
             this.OpenContainer_Menu.Click += new System.EventHandler(this.OpenContainer_Click);
             // 
-            // CopiarNombreMenu
+            // ChangeName_Menu
             // 
             this.ChangeName_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
-            this.ChangeName_Menu.Name = "CopiarNombreMenu";
+            this.ChangeName_Menu.Name = "ChangeName_Menu";
             this.ChangeName_Menu.Size = new System.Drawing.Size(197, 22);
             this.ChangeName_Menu.Text = "Copy Full Name to Clipboard";
             this.ChangeName_Menu.Click += new System.EventHandler(this.ChangeNameMenu_Click);
             // 
-            // EliminarMenu
+            // Delete_Menu
             // 
             this.Delete_Menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
-            this.Delete_Menu.Name = "EliminarMenu";
+            this.Delete_Menu.Name = "Delete_Menu";
             this.Delete_Menu.Size = new System.Drawing.Size(197, 22);
             this.Delete_Menu.Text = "Delete File";
             this.Delete_Menu.Click += new System.EventHandler(this.DeleteMenu_Click);
             // 
-            // Typo
+            // TB_Extention
             // 
-            this.Typo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.Typo.BackColorControl = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
-            this.Typo.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.Typo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Typo.isCustomColor = false;
-            this.Typo.Location = new System.Drawing.Point(718, 50);
-            this.Typo.MaxLength = 32767;
-            this.Typo.Multiline = false;
-            this.Typo.Name = "Typo";
-            this.Typo.OnlyNumber = false;
-            this.Typo.ReadOnly = false;
-            this.Typo.Size = new System.Drawing.Size(46, 26);
-            this.Typo.TabIndex = 435;
-            this.Typo.Text = "cs";
-            this.Typo.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.Typo.UseSystemPasswordChar = false;
+            this.TB_Extention.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.TB_Extention.BackColorControl = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
+            this.TB_Extention.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TB_Extention.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.TB_Extention.isCustomColor = false;
+            this.TB_Extention.Location = new System.Drawing.Point(708, 50);
+            this.TB_Extention.MaxLength = 32767;
+            this.TB_Extention.Multiline = false;
+            this.TB_Extention.Name = "TB_Extention";
+            this.TB_Extention.OnlyNumber = false;
+            this.TB_Extention.ReadOnly = false;
+            this.TB_Extention.Size = new System.Drawing.Size(56, 26);
+            this.TB_Extention.TabIndex = 435;
+            this.TB_Extention.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_Extention.UseSystemPasswordChar = false;
             // 
-            // FilePath
+            // TB_FilePath
             // 
-            this.FilePath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.FilePath.BackColorControl = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
-            this.FilePath.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.FilePath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.FilePath.isCustomColor = false;
-            this.FilePath.Location = new System.Drawing.Point(12, 50);
-            this.FilePath.MaxLength = 32767;
-            this.FilePath.Multiline = false;
-            this.FilePath.Name = "FilePath";
-            this.FilePath.OnlyNumber = false;
-            this.FilePath.ReadOnly = false;
-            this.FilePath.Size = new System.Drawing.Size(524, 26);
-            this.FilePath.TabIndex = 436;
-            this.FilePath.Text = "D:\\Instaladores\\Programación\\Projects\\[SKYNET] Dota2 GameCoordinator Server";
-            this.FilePath.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.FilePath.UseSystemPasswordChar = false;
+            this.TB_FilePath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.TB_FilePath.BackColorControl = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
+            this.TB_FilePath.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TB_FilePath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.TB_FilePath.isCustomColor = false;
+            this.TB_FilePath.Location = new System.Drawing.Point(12, 50);
+            this.TB_FilePath.MaxLength = 32767;
+            this.TB_FilePath.Multiline = false;
+            this.TB_FilePath.Name = "TB_FilePath";
+            this.TB_FilePath.OnlyNumber = false;
+            this.TB_FilePath.ReadOnly = false;
+            this.TB_FilePath.Size = new System.Drawing.Size(510, 26);
+            this.TB_FilePath.TabIndex = 436;
+            this.TB_FilePath.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_FilePath.UseSystemPasswordChar = false;
             // 
-            // txtSearch
+            // TB_KeyToFind
             // 
-            this.txtSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.txtSearch.BackColorControl = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.txtSearch.isCustomColor = false;
-            this.txtSearch.Location = new System.Drawing.Point(542, 49);
-            this.txtSearch.MaxLength = 32767;
-            this.txtSearch.Multiline = false;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.OnlyNumber = false;
-            this.txtSearch.ReadOnly = false;
-            this.txtSearch.Size = new System.Drawing.Size(170, 26);
-            this.txtSearch.TabIndex = 437;
-            this.txtSearch.Text = "modCommon";
-            this.txtSearch.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtSearch.UseSystemPasswordChar = false;
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchText_KeyDown);
+            this.TB_KeyToFind.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.TB_KeyToFind.BackColorControl = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(47)))), ((int)(((byte)(48)))));
+            this.TB_KeyToFind.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TB_KeyToFind.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.TB_KeyToFind.isCustomColor = false;
+            this.TB_KeyToFind.Location = new System.Drawing.Point(530, 49);
+            this.TB_KeyToFind.MaxLength = 32767;
+            this.TB_KeyToFind.Multiline = false;
+            this.TB_KeyToFind.Name = "TB_KeyToFind";
+            this.TB_KeyToFind.OnlyNumber = false;
+            this.TB_KeyToFind.ReadOnly = false;
+            this.TB_KeyToFind.Size = new System.Drawing.Size(170, 26);
+            this.TB_KeyToFind.TabIndex = 437;
+            this.TB_KeyToFind.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.TB_KeyToFind.UseSystemPasswordChar = false;
+            this.TB_KeyToFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchText_KeyDown);
             // 
             // BT_Clear
             // 
@@ -553,9 +544,9 @@ namespace SKYNET
             this.ClientSize = new System.Drawing.Size(776, 606);
             this.Controls.Add(this.BT_Search);
             this.Controls.Add(this.BT_Clear);
-            this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.FilePath);
-            this.Controls.Add(this.Typo);
+            this.Controls.Add(this.TB_KeyToFind);
+            this.Controls.Add(this.TB_FilePath);
+            this.Controls.Add(this.TB_Extention);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.PB_Progress);
             this.Controls.Add(this.label7);
@@ -563,26 +554,22 @@ namespace SKYNET
             this.Controls.Add(this.pnlMessage);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.PN_Top);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.status);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmMain";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseUp);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.PN_Top.ResumeLayout(false);
+            this.PN_Top.PerformLayout();
             this.pnlMessage.ResumeLayout(false);
             this.ResultContainer.ResumeLayout(false);
             this.ResultContainer.PerformLayout();
@@ -601,7 +588,7 @@ namespace SKYNET
         public System.Windows.Forms.Label linkHP;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Timer ClearLabel;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel PN_Top;
         public System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -629,9 +616,9 @@ namespace SKYNET
         private SKYNET_ProgressBar PB_Progress;
         private System.Windows.Forms.Panel panel7;
         public System.Windows.Forms.Label Tittle;
-        private XNova_Utils.Others.SKYNET_TextBox2 Typo;
-        private XNova_Utils.Others.SKYNET_TextBox2 FilePath;
-        private XNova_Utils.Others.SKYNET_TextBox2 txtSearch;
+        private XNova_Utils.Others.SKYNET_TextBox2 TB_Extention;
+        private XNova_Utils.Others.SKYNET_TextBox2 TB_FilePath;
+        private XNova_Utils.Others.SKYNET_TextBox2 TB_KeyToFind;
         private SKYNET_Button BT_Clear;
         private SKYNET_Button BT_Search;
         private Controls.SKYNET_MinimizeBox BT_MinimizeBox;

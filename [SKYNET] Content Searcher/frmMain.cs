@@ -10,17 +10,16 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
+using SKYNET.GUI;
 
 namespace SKYNET
 {
-    public partial class frmMain : Form
+    public partial class frmMain : frmBase
     {
         public static frmMain frm;
         public static SearchManager SearchManager;
         public static CacheManager cacheManager;
 
-        private bool mouseDown;     
-        private Point lastLocation;
         private DateTime started;
         private string fileSelected;
 
@@ -29,6 +28,8 @@ namespace SKYNET
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;  //Para permitir acceso a los subprocesos
             frm = this;
+            base.SetMouseMove(PN_Top);
+
             HideProgress(false);
             DoubleBuffered = true;
 
@@ -88,9 +89,6 @@ namespace SKYNET
             ResultContainer.Visible = false;
         }
 
-
-
-
         private void SearchManager_OnFileFounded(object sender, FileDetails e)
         {
             AddItem(e.FileName, e.FileSize, e.FilePath);
@@ -102,14 +100,13 @@ namespace SKYNET
             {
                 PB_Progress.Value = e;
                 PB_Progress.Maximum = SearchManager.Files.Count;
-                
             }
             catch (Exception)
             {
                 
             }
-            
         }
+
         private void SearchManager_OnSearchCompleted(object sender, int e)
         {
             SetFinished(e, false);
@@ -118,7 +115,6 @@ namespace SKYNET
                 PB_Progress.Visible = false;
             });
         }
-
 
         private void DoubleBufferedToAllControls(object control)
         {
@@ -135,27 +131,12 @@ namespace SKYNET
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            FilePath.Text = @"D:\Instaladores\Programación\Projects";
-        }
-        private void frmMain_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouseDown = false;
-            Opacity = 100;
-        }
-
-        private void frmMain_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDown = true;
-            lastLocation = e.Location;
-        }
-
-        private void frmMain_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
+            if (modCommon.Hackerprod)
             {
-                Location = new Point((Location.X - lastLocation.X) + e.X, (Location.Y - lastLocation.Y) + e.Y);
-                Update();
-                Opacity = 0.93;
+                // For tests only
+                TB_FilePath.Text = @"D:\Instaladores\Programación\Projects";
+                TB_KeyToFind.Text = "modCommon";
+                TB_Extention.Text = "cs";
             }
         }
 
@@ -184,18 +165,28 @@ namespace SKYNET
         {
             FolderBrowserDialog serverloc_patch = new FolderBrowserDialog();
             serverloc_patch.ShowDialog();
-            FilePath.Text = serverloc_patch.SelectedPath;
+            TB_FilePath.Text = serverloc_patch.SelectedPath;
         }
 
         private void FileProcess(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(TB_FilePath.Text))
+            {
+                modCommon.Show("To continue you must specify the path where you want to search the files");
+                return;
+            }
+            if (string.IsNullOrEmpty(TB_Extention.Text))
+            {
+                modCommon.Show("To continue you must specify a phrase or word to search into the files");
+                return;
+            }
             switch (BT_Search.Text)
             {
                 case "Search":
                     BT_Search.Text = "Cancel";
                     FileList.Items.Clear();
                     InitializeSearchManager();
-                    SearchManager.Initialize(FilePath.Text, txtSearch.Text, Typo.Text);
+                    SearchManager.Initialize(TB_FilePath.Text, TB_KeyToFind.Text, TB_Extention.Text);
                     SearchManager.Search();
                     Write("Creating file list");
                     break;
@@ -233,8 +224,12 @@ namespace SKYNET
 
         private void AddItem(string fileName, long fileSize, string FilePath, string Icon = "")
         {
-            string FileSize = LongToMbytes(fileSize);
+            string FileSize = modCommon.LongToMbytes(fileSize);
             ListViewItem listViewItem = new ListViewItem();
+
+            listViewItem.SubItems.Add(fileName);
+            listViewItem.SubItems.Add(FileSize);
+            listViewItem.SubItems.Add(FilePath);
 
             fname = new ListViewItem.ListViewSubItem();
             fsize = new ListViewItem.ListViewSubItem();
@@ -249,40 +244,12 @@ namespace SKYNET
             listViewItem.SubItems[0].Text = fileName;
             listViewItem.SubItems[1].Text = FileSize;
             listViewItem.SubItems[2].Text = FilePath;
-            //listViewItem.SubItems[3].Text = FilePath;
 
             modCommon.InvokeAction(FileList, ()=> { FileList.Items.Add(listViewItem); });
 
         }
         #endregion
 
-        public static string LongToMbytes(long lBytes)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            string str1 = "Bytes";
-            if (lBytes > 1024L)
-            {
-                string str2;
-                float num;
-                if (lBytes < 1048576L)
-                {
-                    str2 = "KB";
-                    num = Convert.ToSingle(lBytes) / 1024f;
-                }
-                else
-                {
-                    str2 = "MB";
-                    num = Convert.ToSingle(lBytes) / 1048576f;
-                }
-                stringBuilder.AppendFormat("{0:0.0} {1}", (object)num, (object)str2);
-            }
-            else
-            {
-                float num = Convert.ToSingle(lBytes);
-                stringBuilder.AppendFormat("{0:0} {1}", (object)num, (object)str1);
-            }
-            return stringBuilder.ToString();
-        }
 
         private void ShowControl(string message)
         {
@@ -308,7 +275,7 @@ namespace SKYNET
             {
                 string filePath = FileList.SelectedItems[0].SubItems[2].Text;
                 string FileName = System.IO.Path.GetFileName(filePath);
-                string FileSize = LongToMbytes(new FileInfo(filePath).Length);
+                string FileSize = modCommon.LongToMbytes(new FileInfo(filePath).Length);
                 Write("Name: " + FileName + " Size: " + FileSize + " Path: " + filePath);
             }
             catch { }

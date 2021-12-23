@@ -36,10 +36,10 @@
             // 
             this.MinPic.BackColor = System.Drawing.Color.Transparent;
             this.MinPic.Image = global::SKYNET.Properties.Resources.close;
-            this.MinPic.Location = new System.Drawing.Point(10, 7);
+            this.MinPic.Location = new System.Drawing.Point(9, 5);
             this.MinPic.Name = "MinPic";
-            this.MinPic.Size = new System.Drawing.Size(13, 12);
-            this.MinPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.MinPic.Size = new System.Drawing.Size(16, 16);
+            this.MinPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MinPic.TabIndex = 5;
             this.MinPic.TabStop = false;
             this.MinPic.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnClicked);

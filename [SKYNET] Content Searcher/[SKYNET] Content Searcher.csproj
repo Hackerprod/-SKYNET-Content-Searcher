@@ -47,80 +47,73 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheManager.cs" />
-    <Compile Include="Controls\ColorSystem.cs" />
-    <Compile Include="Controls\FlatAlertBox.cs">
+    <Compile Include="Manager\CacheManager.cs" />
+    <Compile Include="GUI\Controls\SKYNET_ContextMenuStrip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\SKYNET_ContextMenuStrip.cs">
+    <Compile Include="GUI\Controls\SKYNET_TextBox2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\SKYNET_TextBox2.cs">
+    <Compile Include="GUI\Controls\SKYNET_Button.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\HackProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\HackProgressIndicator.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\MyScrollBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ScrollBars.cs" />
-    <Compile Include="Controls\SKYNET_Button.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\SKYNET_CloseBox.cs">
+    <Compile Include="GUI\Controls\SKYNET_CloseBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\SKYNET_CloseBox.designer.cs">
+    <Compile Include="GUI\Controls\SKYNET_CloseBox.designer.cs">
       <DependentUpon>SKYNET_CloseBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SKYNET_Label.cs">
+    <Compile Include="GUI\Controls\SKYNET_Label.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\SKYNET_MinimizeBox.cs">
+    <Compile Include="GUI\Controls\SKYNET_MinimizeBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\SKYNET_MinimizeBox.designer.cs">
+    <Compile Include="GUI\Controls\SKYNET_MinimizeBox.designer.cs">
       <DependentUpon>SKYNET_MinimizeBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SKYNET_TextBox.cs">
+    <Compile Include="GUI\Controls\SKYNET_TextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\SKYNET_TextBox.designer.cs">
+    <Compile Include="GUI\Controls\SKYNET_TextBox.designer.cs">
       <DependentUpon>SKYNET_TextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileManager.cs" />
+    <Compile Include="Manager\FileManager.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers.cs" />
+    <Compile Include="GUI\frmBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmBase.designer.cs">
+      <DependentUpon>frmBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="modCommon.cs" />
-    <Compile Include="MouseState.cs" />
-    <Compile Include="PathFinder.cs" />
+    <Compile Include="Manager\PathFinder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchManager.cs" />
-    <Compile Include="SKYNET_ProgressBar.cs">
+    <Compile Include="Manager\SearchManager.cs" />
+    <Compile Include="GUI\Controls\SKYNET_ProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ThreadManager.cs" />
-    <EmbeddedResource Include="Controls\SKYNET_CloseBox.resx">
+    <Compile Include="Manager\ThreadManager.cs" />
+    <EmbeddedResource Include="GUI\Controls\SKYNET_CloseBox.resx">
       <DependentUpon>SKYNET_CloseBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SKYNET_MinimizeBox.resx">
+    <EmbeddedResource Include="GUI\Controls\SKYNET_MinimizeBox.resx">
       <DependentUpon>SKYNET_MinimizeBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SKYNET_TextBox.resx">
+    <EmbeddedResource Include="GUI\Controls\SKYNET_TextBox.resx">
       <DependentUpon>SKYNET_TextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmBase.resx">
+      <DependentUpon>frmBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
