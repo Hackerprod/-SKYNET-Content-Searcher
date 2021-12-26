@@ -52,7 +52,8 @@ namespace SKYNET
 
         public static void Show(object obj)
         {
-            MessageBox.Show(obj.ToString());
+            string msg = obj == null ? "NULL" : obj.ToString();
+            MessageBox.Show(msg);
         }
 
         public static void InvokeAction(Control control, Action action)
@@ -99,6 +100,9 @@ namespace SKYNET
             }
             finally { currentProcess = null; }
         }
+
+
+
         public static string LongToMbytes(long lBytes)
         {
             StringBuilder stringBuilder = new StringBuilder();

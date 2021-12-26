@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using SKYNET.GUI;
+using System.Threading.Tasks;
 
 namespace SKYNET
 {
@@ -18,7 +19,7 @@ namespace SKYNET
     {
         public static frmMain frm;
         public static SearchManager SearchManager;
-        public static CacheManager cacheManager;
+        public static CacheManager CacheManager;
 
         private DateTime started;
         private string fileSelected;
@@ -30,7 +31,7 @@ namespace SKYNET
             frm = this;
             base.SetMouseMove(PN_Top);
 
-            HideProgress(false);
+            ProgressVisibility(false);
             DoubleBuffered = true;
 
             for (int i = 0; i < Controls.Count; i++)
@@ -42,8 +43,8 @@ namespace SKYNET
 
             string cachePath = Path.Combine(modCommon.GetPath(), "Data", "Cache");
             modCommon.EnsureDirectoryExists(cachePath);
-            cacheManager = new CacheManager(cachePath);
-            cacheManager.Load();
+            CacheManager = new CacheManager(cachePath);
+            CacheManager.Load();
 
         }
 
@@ -59,61 +60,47 @@ namespace SKYNET
 
         public static void Write(object v)
         {
-            modCommon.InvokeAction(frm.L_State, () =>
-            {
-                frm.L_State.Text = v.ToString();
-            });
+            frm.L_State.Text = v.ToString();
         }
 
         private void SearchManager_OnSearchCancelled(object sender, int e)
         {
-            modCommon.InvokeAction(PB_Progress, () =>
-            {
-                PB_Progress.Visible = false;
-            });
+            ProgressVisibility(false);
             SetFinished(e, true);
         }
 
         private void SearchManager_OnSearchStarted(object sender, DateTime start)
         {
             started = start;
-            Write($"Searching files...");
+            ProgressVisibility(true);
 
-            modCommon.InvokeAction(PB_Progress, () =>
-            {
-                PB_Progress.Visible = true;
-                PB_Progress.Maximum = 100;
-                PB_Progress.Value = 0;
-            });
+            PB_Progress.Maximum = 100;
+            PB_Progress.Value = 0;
 
             ResultContainer.Visible = false;
         }
 
-        private void SearchManager_OnFileFounded(object sender, FileDetails e)
+        private void SearchManager_OnFileFounded(object sender, FileInfo e)
         {
-            AddItem(e.FileName, e.FileSize, e.FilePath);
+            AddItem(e.Name, e.Length, e.FullName);
         }
 
-        private void SearchManager_OnProgressChanged(object sender, int e)
+        private void SearchManager_OnProgressChanged(object sender, int progress)
         {
             try
             {
-                PB_Progress.Value = e;
+                PB_Progress.Value = progress;
                 PB_Progress.Maximum = SearchManager.Files.Count;
             }
             catch (Exception)
             {
-                
+
             }
         }
 
         private void SearchManager_OnSearchCompleted(object sender, int e)
         {
             SetFinished(e, false);
-            modCommon.InvokeAction(PB_Progress, () =>
-            {
-                PB_Progress.Visible = false;
-            });
         }
 
         private void DoubleBufferedToAllControls(object control)
@@ -142,7 +129,49 @@ namespace SKYNET
 
         private void label4_Click(object sender, EventArgs e)
         {
-            Process.Start("www.facebook.com/HackerprodLive");
+            LV_FileList.Items.Clear();
+
+            var count = 0;
+            var founded = 0;
+
+            Write($"Creating file list from \"{TB_FilePath.Text}\"");
+            var sw = Stopwatch.StartNew();
+
+            var fileNames =
+                from dir in Directory.EnumerateFiles(TB_FilePath.Text, "*." + TB_Extention.Text, SearchOption.AllDirectories)
+                select dir;
+
+            Write($"Searching in {fileNames.Count()} files");
+            Task.Run(() =>
+            {
+                var fileContents =
+                    from FileName in fileNames.AsParallel()
+                    let Text = File.ReadAllText(FileName)
+                    select new
+                    {
+                        Text,
+                        FileName
+                    };
+                try
+                {
+                    foreach (var item in fileContents)
+                    {
+                        if (item.Text.Contains(TB_KeyToFind.Text))
+                        {
+                            FileInfo info = new FileInfo(item.FileName);
+                            SearchManager_OnFileFounded(null, info);
+                            founded++;
+                        }
+                        count++;
+                    }
+                }
+                catch (AggregateException ae)
+                {
+
+                }
+
+                modCommon.Show($"FileIterationTwo processed {count.ToString("N0")} files in {sw.ElapsedMilliseconds.ToString("N0")} milliseconds, {founded} founded");
+            });
         }
 
         private void linkHP_MouseMove(object sender, MouseEventArgs e)
@@ -184,11 +213,10 @@ namespace SKYNET
             {
                 case "Search":
                     BT_Search.Text = "Cancel";
-                    FileList.Items.Clear();
+                    LV_FileList.Items.Clear();
                     InitializeSearchManager();
                     SearchManager.Initialize(TB_FilePath.Text, TB_KeyToFind.Text, TB_Extention.Text);
                     SearchManager.Search();
-                    Write("Creating file list");
                     break;
                 case "Cancel":
                     BT_Search.Text = "Search";
@@ -204,15 +232,16 @@ namespace SKYNET
             
             string msg = canceled ?
                 "Search stopped, canceled by user" :
-                "The search finished correctly with " + FileList.Items.Count.ToString() + " coincidences";
+                "The search finished correctly with " + LV_FileList.Items.Count.ToString() + " coincidences";
             ShowControl(msg);
 
-            modCommon.InvokeAction(ResultContainer, () => { ResultContainer.Visible = true; });
+            ResultContainer.Visible = true;
 
             TimeSpan span = DateTime.Now - started;
             Write("The search finished in " + string.Format(CultureInfo.CurrentCulture, $"{span.Minutes} minutes, {span.Seconds} seconds, {span.Milliseconds} milliseconds, {count} files searched"));
-            HideProgress(false);
+            ProgressVisibility(false);
             BT_Search.Text = "Search";
+            modCommon.Show("finished");
         }
 
 
@@ -245,7 +274,7 @@ namespace SKYNET
             listViewItem.SubItems[1].Text = FileSize;
             listViewItem.SubItems[2].Text = FilePath;
 
-            modCommon.InvokeAction(FileList, ()=> { FileList.Items.Add(listViewItem); });
+            modCommon.InvokeAction(LV_FileList, ()=> { LV_FileList.Items.Add(listViewItem); });
 
         }
         #endregion
@@ -261,19 +290,16 @@ namespace SKYNET
         }
 
 
-        private void HideProgress(bool show)
+        private void ProgressVisibility(bool visible)
         {
-            /*if (show)
-                this.progressBar1.Location = new System.Drawing.Point(6, 519);
-            else
-                progressBar1.Location = new System.Drawing.Point(1000, 1000);*/
+            modCommon.InvokeAction(PB_Progress, () => { PB_Progress.Visible = visible; });
         }
 
         private void FileList_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                string filePath = FileList.SelectedItems[0].SubItems[2].Text;
+                string filePath = LV_FileList.SelectedItems[0].SubItems[2].Text;
                 string FileName = System.IO.Path.GetFileName(filePath);
                 string FileSize = modCommon.LongToMbytes(new FileInfo(filePath).Length);
                 Write("Name: " + FileName + " Size: " + FileSize + " Path: " + filePath);
@@ -296,7 +322,7 @@ namespace SKYNET
 
             try
             {
-                string filePath = FileList.SelectedItems[0].SubItems[2].Text;
+                string filePath = LV_FileList.SelectedItems[0].SubItems[2].Text;
                 Process.Start(filePath);
             }
             catch { }
@@ -306,8 +332,8 @@ namespace SKYNET
         {
             try
             {
-                fileSelected = FileList.SelectedItems[0].SubItems[2].Text;
-                if (e.Button == MouseButtons.Right && FileList.FocusedItem.Bounds.Contains(e.Location))
+                fileSelected = LV_FileList.SelectedItems[0].SubItems[2].Text;
+                if (e.Button == MouseButtons.Right && LV_FileList.FocusedItem.Bounds.Contains(e.Location))
                 {
                     ListMenu.Show(Cursor.Position);
                 }
@@ -351,16 +377,16 @@ namespace SKYNET
 
         private void FileName_Click(object sender, EventArgs e)
         {
-            switch (FileList.Sorting)
+            switch (LV_FileList.Sorting)
             {
                 case SortOrder.None:
-                    FileList.Sorting = SortOrder.Ascending;
+                    LV_FileList.Sorting = SortOrder.Ascending;
                     break;
                 case SortOrder.Ascending:
-                    FileList.Sorting = SortOrder.Descending;
+                    LV_FileList.Sorting = SortOrder.Descending;
                     break;
                 case SortOrder.Descending:
-                    FileList.Sorting = SortOrder.Ascending;
+                    LV_FileList.Sorting = SortOrder.Ascending;
                     break;
             }
         }
@@ -370,7 +396,7 @@ namespace SKYNET
             var Result = MessageBox.Show("Are you sure?", "Clear cache", MessageBoxButtons.YesNo);
             if (Result == DialogResult.Yes)
             {
-                cacheManager.Clear();
+                CacheManager.Clear();
             }
         }
 
@@ -381,7 +407,7 @@ namespace SKYNET
 
         private void CloseBox_Clicked(object sender, EventArgs e)
         {
-            Application.Exit();
+            Process.GetCurrentProcess().Kill();
         }
     }
 

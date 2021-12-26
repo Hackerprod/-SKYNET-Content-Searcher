@@ -17,51 +17,34 @@ namespace SKYNET
             ChacheDirectory = Directory;
             Cache = new List<CacheDirectory>();
         }
-        public void AddAndSave(string _Path, List<string> _Files)
-        {
-            var item = new CacheDirectory()
-            {
-                Path = _Path,
-                Files = _Files
-            };
-
-            if (Cache.Find(c => c.Path == _Path) != null)
-            {
-                return;
-            }
-
-            Cache.Add(item);
-
-            try
-            {
-                List<string> Content = new List<string>();
-                Content.Add(item.Path);
-                Content.AddRange(item.Files);
-                File.WriteAllLines(Path.Combine(ChacheDirectory, Path.GetRandomFileName()), Content.ToArray());
-            }
-            catch (Exception ex)
-            {
-                modCommon.Show(ex);
-            }
-        }
         public void Load()
         {
             modCommon.EnsureDirectoryExists(ChacheDirectory);
             foreach (var item in Directory.GetFiles(ChacheDirectory))
             {
-                List<string> Content = File.ReadAllLines(item).ToList();
-                if (Content.Any() && Directory.Exists(Content[0]))
+                try
                 {
-                    string Path = Content[0];
-                    Content.RemoveAt(0);
-                    List<string> Files = Content;
-                    Cache.Add(new CacheDirectory()
+                    List<string> Content = File.ReadAllLines(item).ToList();
+                    if (Content.Any() && Directory.Exists(Content[0]))
                     {
-                        Path = Path,
-                        Files = Files
-                    });
+                        string Path = Content[0];
+                        string Ext = Content[1];
+                        Content.RemoveAt(0);
+                        Content.RemoveAt(1);
+                        List<string> Files = Content;
+                        Cache.Add(new CacheDirectory()
+                        {
+                            Path = Path,
+                            Extention = Ext,
+                            Files = Files
+                        });
+                    }
+                    else
+                    {
+                        try { Directory.Delete(item); } catch { }
+                    }
                 }
-                else
+                catch 
                 {
                     try { Directory.Delete(item); } catch { }
                 }
@@ -79,7 +62,8 @@ namespace SKYNET
                 try
                 {
                     List<string> Content = new List<string>();
-                    Content.Add(item.Path);
+                    Content.Add($"{item.Path}");
+                    Content.Add(item.Extention);
                     Content.AddRange(item.Files);
                     File.WriteAllLines(Path.Combine(ChacheDirectory, Path.GetRandomFileName()), Content.ToArray());
                 }
@@ -90,6 +74,22 @@ namespace SKYNET
             }
         }
 
+        internal void Update(CacheDirectory cache)
+        {
+            if (cache == null || cache.Files.Count() == 0)
+            {
+                return;
+            }
+            foreach (var item in Cache)
+            {
+                if (item.Path == cache.Path && item.Extention == cache.Extention)
+                {
+                    item.Files = cache.Files;
+                }
+            }
+            Save();
+        }
+
         public void Clear()
         {
             Cache.Clear();
@@ -97,6 +97,20 @@ namespace SKYNET
             {
                 File.Delete(item);
             }
+        }
+
+        public void Add(CacheDirectory cache)
+        {
+            if (cache == null || cache.Files.Count() == 0)
+            {
+                return;
+            }
+            var Exists = frmMain.CacheManager.Cache.Find(c => c.Path == cache.Path && c.Extention == cache.Extention);
+            if (Exists == null)
+            {
+                Cache.Add(cache);
+            }
+            Save();
         }
     }
     public class CacheDirectory

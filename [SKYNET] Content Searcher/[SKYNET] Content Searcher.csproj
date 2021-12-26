@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AutoClick.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
@@ -47,6 +50,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FastSearchLibrary\DirectorySearcher\DirectoryCancellationDelegateSearcher.cs" />
+    <Compile Include="FastSearchLibrary\DirectorySearcher\DirectoryCancellationPatternSearcher.cs" />
+    <Compile Include="FastSearchLibrary\DirectorySearcher\DirectoryCancellationSearcherBase.cs" />
+    <Compile Include="FastSearchLibrary\DirectorySearcher\DirectoryEventArgs.cs" />
+    <Compile Include="FastSearchLibrary\DirectorySearcher\DirectorySearcher.cs" />
+    <Compile Include="FastSearchLibrary\DirectorySearcher\DirectorySearcherMultiple.cs" />
+    <Compile Include="FastSearchLibrary\ExecuteHandlers.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileCancellationDelegateSearcher.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileCancellationPatternSearcher.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileCancellationSearcherBase.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileDelegateSearcher.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileEventArgs.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FilePatternSearcher.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileSearcher.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileSearcherBase.cs" />
+    <Compile Include="FastSearchLibrary\FileSearcher\FileSearcherMultiple.cs" />
+    <Compile Include="FastSearchLibrary\SearchCompletedEventArgs.cs" />
     <Compile Include="Manager\CacheManager.cs" />
     <Compile Include="GUI\Controls\SKYNET_ContextMenuStrip.cs">
       <SubType>Component</SubType>
@@ -92,7 +112,6 @@
       <DependentUpon>frmBase.cs</DependentUpon>
     </Compile>
     <Compile Include="modCommon.cs" />
-    <Compile Include="Manager\PathFinder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Manager\SearchManager.cs" />
@@ -143,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\minimise.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AutoClick.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

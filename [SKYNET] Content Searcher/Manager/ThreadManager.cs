@@ -13,9 +13,11 @@ namespace SKYNET
 
         public static void RunThread(string name, Action startThread)
         {
-            Thread start = new Thread(new ThreadStart(startThread));
-            start.IsBackground = true;
-            start.Name = name;
+            Thread start = new Thread(new ThreadStart(startThread))
+            {
+                Name = name,
+                IsBackground = true
+            };
             start.Start();
             ActiveThreads.Add(start);
         }
@@ -40,56 +42,14 @@ namespace SKYNET
         {
             ActiveThreads = new List<Thread>();
         }
-        public static string GenerateName()
+        internal static void RemoveThread(string Name)
         {
-            string str1 = "";
-            try
+            Thread tt = ActiveThreads.Find(t => t.Name == Name);
+            if (tt != null)
             {
-                //Random Marcado por mi
-                string str2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                short num1 = checked((short)str2.Length);
-                Random random = new Random();
-                StringBuilder stringBuilder = new StringBuilder();
-                int num2 = 1;
-                do
-                {
-                    int startIndex = random.Next(0, (int)num1);
-                    stringBuilder.Append(str2.Substring(startIndex, 1));
-                    checked { ++num2; }
-                }
-                while (num2 <= 6);
-                stringBuilder.Append(DateAndTime.Now.ToString("HHmmss"));
-                str1 = stringBuilder.ToString();
-            }
-            catch (Exception ex)
-            {
-            }
-            return str1;
-        }
-        internal static void RemoveThread(string Name, bool StartsWith = false)
-        {
-            if (StartsWith)
-            {
-                var Threads = ActiveThreads.FindAll(t => t.Name.StartsWith(Name));
-                if (Threads != null)
-                {
-                    foreach (var thread in Threads)
-                    {
-                        thread.Abort();
-                        ActiveThreads.RemoveAll(t => t.Name == thread.Name);
-                        GC.Collect();
-                    }
-                }
-            }
-            else
-            {
-                Thread tt = ActiveThreads.Find(t => t.Name == Name);
-                if (tt != null)
-                {
-                    tt.Abort();
-                    ActiveThreads.RemoveAll(t => t.Name == Name);
-                    GC.Collect();
-                }
+                tt.Join();
+                ActiveThreads.RemoveAll(t => t.Name == Name);
+                GC.Collect();
             }
         }
     }

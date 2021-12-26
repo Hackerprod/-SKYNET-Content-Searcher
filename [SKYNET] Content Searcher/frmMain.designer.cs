@@ -57,7 +57,7 @@ namespace SKYNET
             this.ResultContainer = new System.Windows.Forms.Panel();
             this.txtMessage = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.FileList = new System.Windows.Forms.ListView();
+            this.LV_FileList = new System.Windows.Forms.ListView();
             this.FileN = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Paths = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -78,6 +78,8 @@ namespace SKYNET
             this.TB_FilePath = new XNova_Utils.Others.SKYNET_TextBox2();
             this.TB_KeyToFind = new XNova_Utils.Others.SKYNET_TextBox2();
             this.BT_Clear = new SKYNET.Controls.SKYNET_Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.PN_Top.SuspendLayout();
@@ -87,6 +89,7 @@ namespace SKYNET
             this.panel5.SuspendLayout();
             this.panel7.SuspendLayout();
             this.ListMenu.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tittle
@@ -273,28 +276,28 @@ namespace SKYNET
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
-            // FileList
+            // LV_FileList
             // 
-            this.FileList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
-            this.FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.FileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.LV_FileList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
+            this.LV_FileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.LV_FileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.FileN,
             this.Size,
             this.Paths});
-            this.FileList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FileList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(157)))), ((int)(((byte)(160)))));
-            this.FileList.FullRowSelect = true;
-            this.FileList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.FileList.HideSelection = false;
-            this.FileList.Location = new System.Drawing.Point(1, 1);
-            this.FileList.Name = "FileList";
-            this.FileList.Size = new System.Drawing.Size(751, 425);
-            this.FileList.TabIndex = 282;
-            this.FileList.UseCompatibleStateImageBehavior = false;
-            this.FileList.View = System.Windows.Forms.View.Details;
-            this.FileList.SelectedIndexChanged += new System.EventHandler(this.FileList_SelectedIndexChanged);
-            this.FileList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FileList_MouseClick);
-            this.FileList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileList_MouseDoubleClick);
+            this.LV_FileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LV_FileList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(157)))), ((int)(((byte)(160)))));
+            this.LV_FileList.FullRowSelect = true;
+            this.LV_FileList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.LV_FileList.HideSelection = false;
+            this.LV_FileList.Location = new System.Drawing.Point(1, 1);
+            this.LV_FileList.Name = "LV_FileList";
+            this.LV_FileList.Size = new System.Drawing.Size(751, 425);
+            this.LV_FileList.TabIndex = 282;
+            this.LV_FileList.UseCompatibleStateImageBehavior = false;
+            this.LV_FileList.View = System.Windows.Forms.View.Details;
+            this.LV_FileList.SelectedIndexChanged += new System.EventHandler(this.FileList_SelectedIndexChanged);
+            this.LV_FileList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FileList_MouseClick);
+            this.LV_FileList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileList_MouseDoubleClick);
             // 
             // FileN
             // 
@@ -371,7 +374,7 @@ namespace SKYNET
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
-            this.panel7.Controls.Add(this.FileList);
+            this.panel7.Controls.Add(this.LV_FileList);
             this.panel7.Location = new System.Drawing.Point(13, 112);
             this.panel7.Name = "panel7";
             this.panel7.Padding = new System.Windows.Forms.Padding(1);
@@ -392,7 +395,7 @@ namespace SKYNET
             this.BT_Search.MenuMode = false;
             this.BT_Search.Name = "BT_Search";
             this.BT_Search.Rounded = false;
-            this.BT_Search.Size = new System.Drawing.Size(88, 27);
+            this.BT_Search.Size = new System.Drawing.Size(88, 26);
             this.BT_Search.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
             this.BT_Search.TabIndex = 439;
             this.BT_Search.Text = "Search";
@@ -468,13 +471,13 @@ namespace SKYNET
             this.TB_Extention.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.TB_Extention.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.TB_Extention.isCustomColor = false;
-            this.TB_Extention.Location = new System.Drawing.Point(708, 50);
+            this.TB_Extention.Location = new System.Drawing.Point(726, 50);
             this.TB_Extention.MaxLength = 32767;
             this.TB_Extention.Multiline = false;
             this.TB_Extention.Name = "TB_Extention";
             this.TB_Extention.OnlyNumber = false;
             this.TB_Extention.ReadOnly = false;
-            this.TB_Extention.Size = new System.Drawing.Size(56, 26);
+            this.TB_Extention.Size = new System.Drawing.Size(38, 26);
             this.TB_Extention.TabIndex = 435;
             this.TB_Extention.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.TB_Extention.UseSystemPasswordChar = false;
@@ -530,11 +533,29 @@ namespace SKYNET
             this.BT_Clear.MenuMode = false;
             this.BT_Clear.Name = "BT_Clear";
             this.BT_Clear.Rounded = false;
-            this.BT_Clear.Size = new System.Drawing.Size(100, 27);
+            this.BT_Clear.Size = new System.Drawing.Size(100, 26);
             this.BT_Clear.Style = SKYNET.Controls.SKYNET_Button._Style.TextOnly;
             this.BT_Clear.TabIndex = 438;
             this.BT_Clear.Text = "Clear Cache";
             this.BT_Clear.Click += new System.EventHandler(this.Clear_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(54)))), ((int)(((byte)(68)))));
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Location = new System.Drawing.Point(708, 50);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(20, 26);
+            this.panel1.TabIndex = 283;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 5);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(18, 15);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "* .";
             // 
             // frmMain
             // 
@@ -542,6 +563,7 @@ namespace SKYNET
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(39)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(776, 606);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.BT_Search);
             this.Controls.Add(this.BT_Clear);
             this.Controls.Add(this.TB_KeyToFind);
@@ -562,7 +584,6 @@ namespace SKYNET
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmMain";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -578,6 +599,8 @@ namespace SKYNET
             this.panel5.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.ListMenu.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -604,7 +627,7 @@ namespace SKYNET
         private System.Windows.Forms.ToolStripMenuItem OpenContainer_Menu;
         private System.Windows.Forms.ToolStripMenuItem ChangeName_Menu;
         private System.Windows.Forms.ToolStripMenuItem Delete_Menu;
-        private System.Windows.Forms.ListView FileList;
+        private System.Windows.Forms.ListView LV_FileList;
         private System.Windows.Forms.ColumnHeader FileN;
         private System.Windows.Forms.ColumnHeader Size;
         private System.Windows.Forms.ColumnHeader Paths;
@@ -623,5 +646,7 @@ namespace SKYNET
         private SKYNET_Button BT_Search;
         private Controls.SKYNET_MinimizeBox BT_MinimizeBox;
         private Controls.SKYNET_CloseBox BT_CloseBox;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label2;
     }
 }
