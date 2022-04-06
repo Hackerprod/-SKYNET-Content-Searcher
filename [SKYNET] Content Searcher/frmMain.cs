@@ -118,13 +118,6 @@ namespace SKYNET
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            if (modCommon.Hackerprod)
-            {
-                // For tests only
-                TB_FilePath.Text = @"D:\Instaladores\Programación\Projects";
-                TB_KeyToFind.Text = "modCommon";
-                TB_Extention.Text = "cs";
-            }
         }
 
         private void label4_Click(object sender, EventArgs e)
