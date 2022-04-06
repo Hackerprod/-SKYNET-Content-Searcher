@@ -119,6 +119,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Manager\ThreadManager.cs" />
+    <Compile Include="Manager\SettingsManager.cs" />
     <EmbeddedResource Include="GUI\Controls\SKYNET_CloseBox.resx">
       <DependentUpon>SKYNET_CloseBox.cs</DependentUpon>
     </EmbeddedResource>
